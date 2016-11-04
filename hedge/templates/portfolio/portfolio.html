@@ -1,0 +1,108 @@
+{% extends "portfolio/portfolio_base.html" %}
+
+{% block title %}Hedge Portfolio: {{ user.username }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css">
+<script src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/dt-1.10.8/datatables.min.js"></script>
+
+<script type="text/javascript">
+$(window).load(function(){
+    $('#successModal').modal('show');
+});
+</script>
+{% endblock %}
+
+{% block nav_bar %}
+<li><a href="{% url 'splash:base_view' %}">Home</a></li>
+<li><a href="{% url 'stocks:base_view' %}">Stocks</a></li>
+<li><a href="{% url 'stocks:screener_view' %}">Screener</a></li>
+{% if user.is_authenticated %}
+<li class="active"><a href="{% url 'portfolio:base_view' %}">Portfolio<span class="sr-only">(current)</span></a></li>
+<li><a href="{% url 'portfolio:watchlist_view' %}">Watchlist</a></li>
+<li><a href="{% url 'portfolio:history_view' %}">History</a></li>
+{% endif %}
+<li><a href="{% url 'leaderboard:base_view' %}">Leaderboards</a></li>
+{% if mobile %}
+<li><a href="{% url 'splash:glossary_view' %}">Glossary</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% if message %}
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel">
+<div class="modal-dialog modal-md" role="document">
+  <div class="modal-content">
+    <div class="modal-header-success">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      <h2 class="modal-title vertical-align" id="successModalLabel"><i class="glyphicon glyphicon-ok"></i> <strong>Success</strong></h2>
+    </div>
+    <div class="modal-body text-center">
+	  {{ message }}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default center-block" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+	{% endif %}
+
+	<table id="name_table" class="table" {% if not mobile %}style="width: 720px;"{% endif %}>
+	<caption><h1>{{ user.username }} portfolio:</h1></caption>
+	<tr><td><h5>Available funds: {{ money }}</h5></td></tr>
+	<tr><td><h5>Current Valuation: {{ valuation }}</h5></td></tr>
+	</table>
+	
+	{% if stock_list %}
+	<div class="table-responsive">
+	<table id="owned_table" class="display table table-bordered" width="90%">
+	<caption><big>You currently own the following stocks:</big></caption>
+		<thead>
+		<tr>
+			<th>Symbol</th>
+			<th>Quantity</th>
+			{% if mobile %}
+			<th>Avg. Price</th>
+			{% else %}
+			<th>Avg. Purchase Price</th>
+			{% endif %}
+			<th>Current Price</th>
+			<th>Current Value</th>
+			<th>Profit/Loss</th>
+			<th>% Gain</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for s in stock_list %}
+			<tr>
+			<td><a href="{% url 'stocks:symbol_view' s.0 %}">{{ s.0 }}</a></td>
+			<td>{{ s.1 }}</td><td>{{ s.2 }}</td><td>{{ s.3 }}</td><td>{{ s.4 }}</td><td>{{ s.5 }}</td><td>{{ s.6 }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	</div>
+	{% else %}
+	<table id="non" class="table table-bordered" width="90%">
+	<caption><big>You don't own any stocks yet!</big></caption>
+	</table>
+	{% endif %}
+	<br><br>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#owned_table').dataTable( {
+	"paging": false,
+	"searching": false,
+	"lengthChange": false,
+	"info": false
+	});
+});
+</script>
+{% endblock %}
+
+

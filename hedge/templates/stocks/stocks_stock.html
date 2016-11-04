@@ -1,0 +1,206 @@
+{% extends "stocks/stocks_base.html" %}
+
+{% block title %}Hedge Stock info for {{ symbol }}{% endblock %}
+
+{% block head %}
+<style>
+#id_quantity {
+	color : #000;
+}
+#chart_img {
+  width: 720px;
+  max-width: 100%;
+  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+<script type="text/javascript">
+$(window).load(function(){
+    $('#errorModal').modal('show');
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<script src="http://charts.wikinvest.com/wikinvest/wikichart/javascript/scripts.php" type="text/javascript"></script>
+	{% if message %}
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel">
+<div class="modal-dialog modal-md" role="document">
+  <div class="modal-content">
+    <div class="modal-header-danger">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      <h2 class="modal-title vertical-align" id="errorModalLabel"><i class="glyphicon glyphicon-remove"></i> <strong>Error</strong></h2>
+    </div>
+    <div class="modal-body text-center">
+	  {{ message }}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default center-block" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+	{% endif %}
+
+<div id="stockcontainer">
+<div class="container">
+	<div class="row vertical-align">
+	{% if user.is_authenticated %}
+	<div class="col-xs-8">
+		<h2><b>{{ symbol }}</b> : {{ q_name }}</h2>
+	</div>
+	<div class="col-xs-4 text-right">
+		{% if watched %}
+		<form action="{% url 'stocks:symbol_view' symbol %}" method="post">
+			{% csrf_token %}
+<!-- <button type="button" value="Unwatch" type="submit" class="btn btn-info btn-md"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>Unwatch</button> -->
+			<input type="hidden" name="type" value="unwatch">
+			<input type="submit" class="btn btn-info btn-md" value="Unwatch" />
+		</form>
+		{% else %}
+		<form action="{% url 'stocks:symbol_view' symbol %}" method="post">
+			{% csrf_token %}
+				<input type="hidden" name="type" value="watch">
+				<input type="submit" class="btn btn-info btn-md" value="Watch" />
+		</form>
+		{% endif %}
+		</div>
+	{% else %}
+	<div class="col-xs-12">
+		<h2><b>{{ symbol }}</b> : {{ q_name }}</h2>
+	</div>
+	{% endif %}
+	</div>
+</div>
+</div>
+
+<div class="container" style="width:100%">
+{% if mobile %}
+<div class="container-fluid">
+  <div class="row">
+<img id="chart_img" class="center-block" src="https://www.google.com/finance/getchart?q={{ symbol }}&p=5d&i=300" alt="{{ symbol}}">
+  </div>
+</div>
+<div class="container text-center" style="margin: auto;">
+<div class="btn-group">
+	<button type="button" id="chart_button0" class="btn btn-warning btn-xs center-block" onclick="update_chart(0);">Today</button>
+	<button type="button" id="chart_button1" class="btn btn-warning btn-xs center-block" disabled="disabled" onclick="update_chart(1);">5 Day</button>
+	<button type="button" id="chart_button2" class="btn btn-warning btn-xs center-block" onclick="update_chart(2);">Month</button>
+	<button type="button" id="chart_button3" class="btn btn-warning btn-xs center-block" onclick="update_chart(3);">Year</button>
+	<button type="button" id="chart_button4" class="btn btn-warning btn-xs center-block" onclick="update_chart(4);">5 Year</button>
+</div>
+</div>
+{% else %}
+	<div class="row roundborder2">
+	<object class="center-block" id="embedded_wikichart" data="http://charts.wikinvest.com/WikiChartMini.swf" type="application/x-shockwave-flash" height="480" width="720">
+		<param value="always" name="AllowScriptAccess">
+		<param value="partner=wikinvest&amp;ticker=:{{ symbol }}&amp;rollingDate=5 days&amp;showNewsIcons=false&amp;embedCodeDate={{ date }}&amp;adId=tdameritrade" name="flashvars">
+		<img src="https://www.google.com/finance/getchart?q={{ symbol }}&p=5d&i=300" alt="Chart Image"/>
+	</object>
+	</div>
+{% endif %}	
+	<div class="row">		
+	<div>
+		<table class="table table-bordered" {% if not mobile %}style="width: 720px;"{% endif %}>
+		<caption><big>Summary:</big></caption>
+		<tbody>
+			<tr>
+				<th scope="row"><span data-toggle="tooltip" title="Price -- the stock price is the highest amount someone is willing to pay for the stock, or the lowest amount that it can be bought for.">Price</span></th><td id="price_cell">{{ q_price }}</td>
+				<th scope="row"><span data-toggle="tooltip" title="Market Capitalization -- the total dollar market value of all of a company's outstanding shares.">Market Cap.</span></th><td>{{ q_mcap }}</td>
+			</tr>
+			<tr>
+				<th scope="row"><span data-toggle="tooltip" title="Previous Close -- the stock closing price on the preceding day of trading.">Prev. Close</span></th><td>{{ q_close }}</td>
+				<th scope="row"><span data-toggle="tooltip" title="Open -- the intial price of the stock at opening of stock market.">Open</span></th><td>{{ q_open }}</td>
+			</tr>
+			<tr>
+				<th scope="row"><span data-toggle="tooltip" title="Change -- the difference between the current price and the last trade of the previous day.">Change</span></th><td>{{ q_change }}</td>
+				<th scope="row"><span data-toggle="tooltip" title="Percent Change -- the percentage change in the company's stock price since the close of the last trading day of the previous year.">% Change</span></th><td>{{ q_pchange }}</td>
+			</tr>
+			<tr>
+				<th scope="row"><span data-toggle="tooltip" title="Volume -- the number of shares of stocks traded during a given period of time.">Volume</span></th><td>{{ q_vol }}</td>
+				<th scope="row"><span data-toggle="tooltip" title="Average Volume -- the number of shares of a stock traded each day averaged over some period of time.">Avg. Volume</span></th><td>{{ q_avgvol }}</td>
+			</tr>
+			<tr>
+				<th scope="row"><span data-toggle="tooltip" title="52-Week High -- the highest price that a stock has traded at during the previous year.">52W High</span></th><td>{{ q_yhigh }}</td>
+				<th scope="row"><span data-toggle="tooltip" title="52-Week Low -- the lowest price that a stock has traded at during the previous year.">52W Low</span></th><td>{{ q_ylow }}</td>
+			</tr>
+			<tr>
+				<th scope="row"><span data-toggle="tooltip" title="Earnings Per Share -- the portion of a company's profit allocated to each outstanding share of common stock.">EPS</span></th><td>{{ q_eps }}</td>
+				<th scope="row"><span data-toggle="tooltip" title="Price-to-Earnings Ratio -- the ratio for valuing a company that measures its current share price relative to its per-share earnings.">P/E</span></th><td>{{ q_pe }}</td>
+			</tr>
+		</tbody>
+		</table>
+		<div class="col-md-6 col-md-offset-3 text-center"><div class="alert alert-success" role="alert"><strong>Note:</strong> Hover your cursor over each term for its definition.</div></div>
+	</div>
+	</div>
+</div>
+<div id="stockcontainer">
+<div class="container-fluid">
+	{% if user.is_authenticated %}
+	<div class="container roundborder">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<form class="form-inline" action="{% url 'stocks:symbol_view' symbol %}" method="post">
+			<div class="form-group" style="display: inline-block;white-space: nowrap;">
+				{% csrf_token %}
+				{{ buy_form }}
+				<input type="hidden" name="type" value="buy">
+				<input type="submit" class="btn btn-success btn-md" value="Buy" />
+			</div>
+		</form>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<h5 class="vertical-align alert alert-warning">
+			<span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+			<span class="inline2"> You have ${{ money }}</span>
+		</h5>
+		</div>
+		{% if owns %}
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<form class="form-inline" action="{% url 'stocks:symbol_view' symbol %}" method="post">
+			<div class="form-group" style="display: inline-block;white-space: nowrap;">
+				{% csrf_token %}
+				{{ sell_form }}
+				<input type="hidden" name="type" value="sell">
+				<input type="submit" class="btn btn-danger btn-md" value="Sell" />
+			</div>
+		</form>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<h5 class="vertical-align alert alert-warning">
+			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+			<span class="inline2"> You own {{ num_owned }} shares.</span>
+		</h5>
+		</div>
+	{% endif %}
+	</div>  <!-- roundborder -->
+	{% endif %}
+</div>  <!-- container -->
+</div> <!-- stockcontainer -->
+
+<!-- Auto-update price (client-side) every 10 seconds:
+<script type="text/javascript">
+function re_get_price() {
+	var price_url = "http://finance.google.com/finance/info?q={{ symbol }}";
+	//var price_page = get_page(url);
+	//and then strip the first 3 characters, convert to json and extract:
+	//var price_val = json_obj["l"];
+	document.getElementById("price_cell").innerHTML = "";//price_val;
+}
+//window.setInterval(re_get_price(), 10000);
+</script>
+-->
+
+{% endblock %}
+
+{% block js %}
+<script>
+$(function () {$("[data-toggle='tooltip']").tooltip();});
+</script>
+{% if mobile %}
+<script>
+chart_srcs = ['https://www.google.com/finance/getchart?q={{ symbol }}&p=1d&i=60','https://www.google.com/finance/getchart?q={{ symbol }}&p=5d&i=480','https://www.google.com/finance/getchart?q={{ symbol }}&p=1M&i=1200','https://www.google.com/finance/getchart?q={{ symbol }}&p=1Y&i=253800','https://www.google.com/finance/getchart?q={{ symbol }}&p=5Y&i=592200']; function update_chart(t){for(document.getElementById("chart_img").src=chart_srcs[t],j=0;j<5;j++)t==j?document.getElementById("chart_button"+j).setAttribute("disabled","disabled"):document.getElementById("chart_button"+j).removeAttribute("disabled")}
+</script>
+{% endif %}
+{% endblock %}
+

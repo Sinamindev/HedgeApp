@@ -1,0 +1,13 @@
+MainThread 2015-11-30 23:37:29,456 huey.consumer.ConsumerThread INFO 1 worker threads
+MainThread 2015-11-30 23:37:29,456 huey.consumer.ConsumerThread INFO Setting signal handler
+MainThread 2015-11-30 23:37:29,456 huey.consumer.ConsumerThread INFO Huey consumer initialized with following commands
++ first_of_the_year
++ monday_thru_friday_morning
++ NewBase
++ first_of_the_month
++ flush_cache_15_min
++ every_5_min
++ monday_morning
+MainThread 2015-11-30 23:37:29,456 huey.consumer.ConsumerThread INFO Starting scheduler thread
+MainThread 2015-11-30 23:37:29,457 huey.consumer.ConsumerThread INFO Starting worker threads
+MainThread 2015-11-30 23:37:29,459 huey.consumer.ConsumerThread INFO Starting periodic task scheduler thread

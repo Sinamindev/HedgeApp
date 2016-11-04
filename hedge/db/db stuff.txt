@@ -1,0 +1,8 @@
+This is an example django project using postgresql.
+
+
+To snapshot the database:
+$ pg_dump postg_db > db/db_dump
+
+To load db from dump:
+$ psql postg_db < db/db_dump

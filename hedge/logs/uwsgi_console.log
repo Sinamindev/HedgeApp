@@ -1,0 +1,27 @@
+*** Starting uWSGI 2.0.11.2 (64bit) on [Tue Dec  1 07:29:13 2015] ***
+compiled with version: 4.8.3 20140911 (Red Hat 4.8.3-9) on 21 November 2015 00:23:47
+os: Linux-4.1.10-17.31.amzn1.x86_64 #1 SMP Sat Oct 24 01:31:37 UTC 2015
+nodename: ip-172-31-56-72
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 1
+current working directory: /home/ec2-user/cpsc-462/server_settings
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/ec2-user/cpsc-462/hedge
+your processes number limit is 3911
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /home/ec2-user/cpsc-462/wsgi.sock fd 8
+Python version: 3.4.3 (default, Apr  1 2015, 18:10:40)  [GCC 4.8.2 20140120 (Red Hat 4.8.2-16)]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x2716870
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 145520 bytes (142 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x2716870 pid: 25474 (default app)
+spawned uWSGI master process (pid: 25474)
+spawned uWSGI worker 1 (pid: 25476, cores: 1)

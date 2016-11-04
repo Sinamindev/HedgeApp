@@ -1,0 +1,76 @@
+{% extends "portfolio/portfolio_base.html" %}
+
+{% block title %}Hedge Portfolio: {{ user.username }} Transaction History{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+
+<script type="text/javascript">
+$(window).load(function(){
+    $('#successModal').modal('show');
+});
+</script>
+{% endblock %}
+
+{% block nav_bar %}
+<li><a href="{% url 'splash:base_view' %}">Home</a></li>
+<li><a href="{% url 'stocks:base_view' %}">Stocks</a></li>
+<li><a href="{% url 'stocks:screener_view' %}">Screener</a></li>
+{% if user.is_authenticated %}
+<li><a href="{% url 'portfolio:base_view' %}">Portfolio</a></li>
+<li><a href="{% url 'portfolio:watchlist_view' %}">Watchlist</a></li>
+<li class="active"><a href="{% url 'portfolio:history_view' %}">History<span class="sr-only">(current)</span></a></li>
+{% endif %}
+<li><a href="{% url 'leaderboard:base_view' %}">Leaderboards</a></li>
+{% if mobile %}
+<li><a href="{% url 'splash:glossary_view' %}">Glossary</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% if user_stocks %}
+{% if mobile %}
+<div>
+{% else %}
+<div style="width: 80%; margin: auto;">
+{% endif %}
+	<div class="table-responsive">
+	<table id="history_table" class="table table-bordered">
+	<caption><big>{{ user.username }} transactions:</big></caption>
+		<thead>
+		<tr>
+			<th>Symbol</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Date</th>
+			<th>Transaction</th>
+		</tr>
+		</thead>
+		<tbody>{% for s in user_stocks %}
+			<tr><td><a href="{% url 'stocks:symbol_view' s.0 %}">{{ s.0 }}</a></td>
+			<td>{{ s.1 }}</td><td>{{ s.2 }}</td><td>{{ s.3 }}</td><td>{{ s.4 }}</td></tr>
+		{% endfor %}</tbody>
+	</table>
+	</div>
+	</div>
+	{% else %}
+	<table id="non" class="table">
+	<caption><big>You haven't made any transactions yet!</big></caption>
+	</table>
+	{% endif %}
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#history_table').dataTable( {
+	"lengthChange": false,
+	"info": false,
+	"order": [],
+	"searching": false,
+	});
+});
+</script>
+{% endblock %}

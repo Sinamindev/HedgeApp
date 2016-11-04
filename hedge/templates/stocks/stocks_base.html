@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block nav_bar %}
+<li><a href="{% url 'splash:base_view' %}">Home</a></li>
+<li class="active"><a href="{% url 'stocks:base_view' %}">Stocks<span class="sr-only">(current)</span></a></li>
+<li><a href="{% url 'stocks:screener_view' %}">Screener</a></li>
+{% if user.is_authenticated %}
+<li><a href="{% url 'portfolio:base_view' %}">Portfolio</a></li>
+<li><a href="{% url 'portfolio:watchlist_view' %}">Watchlist</a></li>
+<li><a href="{% url 'portfolio:history_view' %}">History</a></li>
+{% endif %}
+<li><a href="{% url 'leaderboard:base_view' %}">Leaderboards</a></li>
+{% if mobile %}
+<li><a href="{% url 'splash:glossary_view' %}">Glossary</a></li>
+{% endif %}
+{% endblock %}

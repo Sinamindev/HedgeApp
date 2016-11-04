@@ -1,0 +1,112 @@
+#intro {
+    text-align: center;
+    overflow: hidden;
+    width: 100%;
+}
+#intro h1 {
+    font-family: 'Quando';
+    font-size: 55px;
+    font-weight: 100;
+    line-height: 70px;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    display: block;
+    z-index: 10;
+    color: #111;
+}
+#intro h3 {
+    margin: auto;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 50px;
+    margin: 0;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    padding: 0;
+    border: 0;
+    display: block;
+    padding-right: 10%;
+    padding-left: 10%;
+}
+#intro a {
+    border-radius: 50px;
+    background: #ee7337;
+    color: white;
+    font-size: 30px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: auto;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 20px;
+    display: block;
+}
+#intro a:hover {
+    background: white;
+    color: #ee7337;
+    text-decoration: none;
+}
+video {
+    width: 100%;
+    height: auto;
+    opacity: 0.5;
+    background-color: black;
+    -webkit-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+    overflow: hidden;
+    display: block;
+}
+#videoContainer {
+    position: relative;
+    min-height: 600px;
+}
+.text_foreground {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    z-index: 10;
+}
+#backgroundVideo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.numbercircle {
+    float: left;
+    margin-right: 20px;
+    padding: 5px 11px;
+}
+.numbercircle strong {
+    border: 1px solid #c0c0c0;
+    padding: 6px 11px;
+    border-radius: 50%;
+    width: 8px;
+}
+#one {
+    padding: 6px 12px;
+}
+.stcontainer
+{
+    margin-top:;
+    background-color: white;
+    height: 60px;
+    margin-top: -20px;
+    font-family: 'Montserrat';
+    width: 100%;
+    overflow: hidden;
+}
+.stcontainer .wrap
+{
+    width: 100%;
+    left: 5px;
+    top: 0px;
+    overflow: hidden;
+    position: relative;
+    line-height: 50px;
+    font-size-adjust: none;
+
+}
+

@@ -1,0 +1,60 @@
+Start Amazon AWS RDS instance - PostgreSQL
+Start Amazon AWS EC2 instance
+
+$ chmod 400 <aws-key.pem>
+$ scope -i <aws-key.pem> secrets.json ec2-user@<aws-instance-public-dns>:~
+$ ssh -i <aws-key.pem> ec2-user@<aws-instance-public-dns>
+
+On ec2 terminal:
+$ sudo yum install python34-devel postgresql94-devel
+$ sudo yum install tcl git nginx gcc
+$ wget http://download.redis.io/releases/redis-2.8.12.tar.gz
+$ tar xvzf redis-2.8.12.tar.gz
+$ cd redis-2.8.12
+$ make
+$ make test
+$ make install
+$ cd
+$ git clone https://<bitbucket-username>@bitbucket.org/SJMDP/cpsc-462.git
+-enter password
+$ mv secrets.json cpsc-462/hedge/
+$ cd cpsc-462/hedge/
+$ sudo pip install -r requirements.txt
+-might need to install legit pip:
+- $ wget https://bootstrap.pypa.io/get-pip.py
+- $ sudo python3 get-pip.py
+- $ sudo yum install -y gcc libxml2 libxml2-devel libxslt libxslt-devel
+- $ sudo /usr/local/bin/pip3 install -r requirements.txt
+	-errors with lxml??
+
+Update settings:
+$ nano nginx_hedge.conf
+-set server socket to: server unix:///home/ec2-user/cpsc-462/wsgi.sock;
+-server name to IP address - or domain name if using a domain.
+-static and log locations...
+
+$ nano uwsgi_hedge.ini
+-set chdir, log-dir, socket directory
+
+$ nano hedge/secrets.json
+- set database name to RDS location.
+
+Run nginx:
+$ sudo ln -s /home/ec2-user/cpsc-462/nginx_hedge.conf /usr/share/nginx/nginx_hedge.conf
+$ sudo nginx -c nginx_hedge.conf
+- to stop: $ sudo nginx -s stop
+
+Run redis (in background):
+$ redis-server --port 6667 >redis_console.log &
+
+Run huey tasks:
+$ sudo python3 manage.py run_huey >huey_tasks.log &
+	- maybe add 2>huey_tasks_err.log
+
+Run uwsgi server:
+$ uwsgi --ini uwsgi_hedge.ini >uwsgi_console.log &
+
+
+
+psql --host=hedgedb.cytnoy2x5yls.us-east-1.rds.amazonaws.com --port=5432 --username=root --password --dbname=hedge_db
+

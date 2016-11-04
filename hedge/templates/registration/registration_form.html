@@ -1,0 +1,261 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/formValidation.min.css">
+<style>
+.panel-body .btn{padding:10px}.panel .btn-link{color:black}#basicBootstrapForm .form-group{align-items:top}.panel{border-radius:25px}.panel-heading{border-top-right-radius:25px;border-top-left-radius:25px}.panel-footer{border-bottom-right-radius:25px;border-bottom-left-radius:25px}
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="stockcontainer">
+<div class="container">
+<div class="col-md-6 col-md-offset-3">
+<div class="panel panel-default" >
+	<div class="panel-heading">
+		<div class="btn-group btn-group-justified" role="group" aria-label="...">
+			<div class="btn-group" role="group">
+				<a href="{% url 'auth_login' %}" class="btn btn-default">Log In</a>
+			</div>
+			<div class="btn-group" role="group">
+				<a href="{% url 'registration_register' %}" class="btn btn-primary">Register</a>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body" >
+		{% if user.is_authenticated %}
+		<div class="col-xs-12">
+			<h3>You are currently logged in.</h3>
+			<h4>If you wish to register under another username, you must first 
+				<a href="{% url 'auth_logout' %}">{% trans "log out" %}</a>.
+			</h4>
+		</div>
+		{% else %}
+		<div class="col-xs-12">
+			<h4 style="margin-bottom: 20px;">Please sign up for a new account:</h4>
+		</div>
+		<form id="basicBootstrapForm" class="form-horizontal" action="." method="post" role="form">
+			{% csrf_token %}
+			{% if form.non_field_errors %}
+        <div class="col-xs-12">
+        <div class="form-group">
+            <div class="alert alert-warning" style="border-radius: 0; margin-bottom: 0px;">
+                {{ form.non_field_errors }}
+            </div>
+        </div>
+        </div>
+			{% endif %}
+			<div class="form-group">
+				<div class="col-xs-12">
+					<input type="text" class="form-control" name="username" id="id_username" placeholder="Username" maxlength="30" autofocus/>
+				</div>
+			</div>
+			{% if form.username.errors %}
+        <div class="col-xs-12">
+        <div class="form-group">
+            <div class="alert alert-warning" style="border-radius: 0; margin-bottom: 0px;">
+                {{ form.username.errors }}
+            </div>
+        </div>
+        </div>
+			{% endif %}
+			<div class="form-group">
+				<div class="col-xs-12">
+					<input type="email" id="id_email" class="form-control" placeholder="Email" name="email" />
+				</div>
+			</div>
+			{% if form.email.errors %}
+        <div class="col-xs-12">
+        <div class="form-group">
+            <div class="alert alert-warning" style="border-radius: 0; margin-bottom: 0px;">
+                {{ form.email.errors }}
+            </div>
+        </div>
+        </div>
+			{% endif %}
+			<div class="form-group">
+				<div class="col-xs-12">
+					<input type="text" class="form-control" placeholder="Confirm Email" name="confirmEmail" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-12">
+					<input type="password" name="password1" id="id_password1" placeholder="Password" class="form-control" />
+				</div>
+			</div>
+			{% if form.password1.errors %}
+        <div class="col-xs-12">
+        <div class="form-group">
+            <div class="alert alert-warning" style="border-radius: 0; margin-bottom: 0px;">
+                {{ form.password1.errors }}
+            </div>
+        </div>
+        </div>
+			{% endif %}
+			<div class="form-group">
+				<div class="col-xs-12">
+					<input type="password" name="password2" id="id_password2" placeholder="Confirm Password" class="form-control" />
+				</div>
+			</div>
+			{% if form.password2.errors %}
+        <div class="col-xs-12">
+        <div class="form-group">
+            <div class="alert alert-warning" style="border-radius: 0; margin-bottom: 0px;">
+                {{ form.password2.errors }}
+            </div>
+        </div>
+        </div>
+			{% endif %}
+			<div class="form-group">
+				<label class="col-xs-6 col-md-4 control-label" id="captchaOperation"></label>
+				<div class="col-xs-6 col-md-8">
+					<input type="text" class="form-control" name="captcha" />
+				</div>
+			</div>
+			<div class="col-xs-12 text-center" style="margin-bottom: 15px; margin-top: 15px;"><small>I agree to the Hedge Terms of Service and Privacy.</small></div>
+			<div class="form-group">
+				<div class="col-xs-12">
+					<button type="submit" class="btn btn-success btn-block center-block" name="register-submit" id="register-submit" value="Register">Register</button>
+				</div>
+			</div>
+		</form>
+		{% endif %}
+	</div><!-- End panel body -->
+</div><!-- End panel group -->
+</div><!-- End col div -->
+</div><!-- End container -->
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer" id="footerbar">
+    <div class="container">
+    <div class="row">
+        <div id="footercopyright">
+            <div class="col-xs-6">
+                <h6>Copyright &copy; 2015 Hedge. All rights reserved.</h6>
+                <a class="btn btn-link btn-xs" href="{% url 'splash:base_view' %}">Home</a>
+                <a class="btn btn-link btn-xs" href="bitcoin:1MPfsgewyBg3Qum8Msc8uQn7kPXpf3FzgV?amount=0.01&label=Hedge">Donate</a>
+            </div>
+            <div class="col-xs-6">
+                <ul class="nav">
+                <h6 class="pull-right">
+                    <li>Mahdi Hosseini</li>
+                    <li>Phillip Stewart</li>
+                    <li>Sina Amini</li>
+                    <li>Joe Greene</li>
+                    <li>Derek Louie</li>
+                </h6>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+</footer>
+{% endblock %}
+
+
+{% block js %}
+<script src="/static/js/formValidation.min.js"></script>
+<script src="/static/js/bootstrapfv.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Generate a simple captcha
+    function randomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    $('#captchaOperation').html([randomNumber(1, 100), '+', randomNumber(1, 200), '='].join(' '));
+
+    $('#basicBootstrapForm').formValidation({
+      framework: 'bootstrap',
+      icon: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        username: {
+          validators: {
+            notEmpty: {
+              message: 'The username is required.'
+            },
+            stringLength: {
+              min: 6,
+              max: 30,
+              message: 'The username must be more than 6 and less than 30 characters long.'
+            },
+            regexp: {
+              regexp: /^[a-zA-Z0-9_\.]+$/,
+              message: 'The username can only consist of alphabetical, number, dot and underscore.'
+            },
+            remote: {
+              url: '../../api/user/',
+              type: 'GET',
+              message: 'That username is taken.',
+              delay: 600
+            }
+          }
+        },
+        email: {
+          validators: {
+            notEmpty: {
+              message: 'The email address is required.'
+            },
+            emailAddress: {
+              message: 'The input is not a valid email address.'
+            }
+          }
+        },
+        confirmEmail: {
+          validators: {
+            notEmpty: {
+              message: 'The email address confirmation is required.'
+            },
+            identical: {
+              field: 'email',
+              message: 'The email and its confirmation are not the same.'
+            }
+          }
+        },
+        password1: {
+          validators: {
+            notEmpty: {
+              message: 'The password is required.'
+            },
+            different: {
+              field: 'username',
+              message: 'The password cannot be the same as username.'
+            }
+          }
+        },
+        password2: {
+          validators: {
+            notEmpty: {
+              message: 'The password confirmation is required.'
+            },
+            identical: {
+              field: 'password',
+              message: 'The password and its confirmation are not the same.'
+            }
+          }
+        },
+        captcha: {
+          validators: {
+            callback: {
+              message: 'The answer is wrong.',
+              callback: function(value, validator, $field) {
+                var items = $('#captchaOperation').html().split(' '), sum = parseInt(items[0]) + parseInt(items[2]);
+                return value == sum;
+              }
+            }
+          }
+        }
+      }
+    });
+});
+</script>
+{% endblock %}
+
+

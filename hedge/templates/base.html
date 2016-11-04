@@ -1,0 +1,157 @@
+{% load i18n %}
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Hedge{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' type="text/css" href='https://fonts.googleapis.com/css?family=Quando|Raleway|Montserrat'>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  {% if mobile %}
+  <link rel="stylesheet" href="/static/css/mobile_base.css">
+  {% else %}
+  <link rel="stylesheet" href="/static/css/base.css">
+  {% endif %}
+  {% block head %}
+  {% endblock %}
+</head>
+
+<body>
+<div id="header">
+{% block header %}
+    <div id="topbarcontainer">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="row vertical-align" id="topbar">
+                <div class="col-xs-6">
+                    <a href="{% url 'splash:base_view' %}">                
+                    {% if mobile %}
+                    <img src="/static/images/logo_name.png" alt="Hedge Logo" width="184" height="35" id="logoimage">
+                    {% else %}
+                    <img src="/static/images/logo_name.png" alt="Hedge Logo" width="263" height="50" id="logoimage">
+                    {% endif %}
+                    </a>
+                </div>
+                {% block account_mgmt %}
+                <div class="col-xs-6" id="loginbuttons">
+                    <!-- <b>{{ user.username }}</b> -->
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'account:base_view' %}" id="login-button" class="btn btn-info btn-small pull-right">Manage Account</a>
+                    {% else %}
+                    <a href="{% url 'auth_login' %}" id="login-button" class="btn btn-info btn-small pull-right">Log In</a>
+                    <a href="{% url 'registration_register' %}" id="signup-button" class="btn btn-small btn-info pull-right">Sign Up</a>
+                    {% endif %}
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+<div id="ticker-container"><div id="ticker">
+    {% for row in ticker_symbols %}
+        <span class={% if row.0 %}"GreenText"{% else %}"RedText"{% endif %}><span class="quote"><a href={% url 'stocks:symbol_view' row.1 %}>{{ row.1 }}</a></span>{% if row.0 %}&#9650;{% else %}&#9660;{% endif %}{{ row.2 }}%</span>
+    {% endfor %}
+</div></div>
+    <nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% block nav_bar %}
+                <li class="active"><a href="{% url 'splash:base_view' %}">Home<span class="sr-only">(current)</span></a></li>
+                <li><a href="{% url 'stocks:base_view' %}">Stocks</a></li>
+                <li><a href="{% url 'stocks:screener_view' %}">Screener</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'portfolio:base_view' %}">Portfolio</a></li>
+                <li><a href="{% url 'portfolio:watchlist_view' %}">Watchlist</a></li>
+                <li><a href="{% url 'portfolio:history_view' %}">History</a></li>
+                {% endif %}
+                <li><a href="{% url 'leaderboard:base_view' %}">Leaderboards</a></li>
+                {% if mobile %}
+                <li><a href="{% url 'splash:glossary_view' %}">Glossary</a></li>
+                {% endif %}
+                {% endblock %}
+            </ul>
+
+            {% block stock_search %}
+            <ul class="nav navbar-nav navbar-right">
+                <form class="navbar-form navbar-left" method="get" action="{% url 'stocks:symbol_search' %}">
+                <input type="text" class="form-control" name="symbol" placeholder="Enter a stock symbol">
+                <input type="submit" class="btn btn-default" value="Search">
+                </form>
+            </ul>
+            {% endblock %}
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+    </nav>
+{% endblock %}
+</div>
+
+
+<div id="content">
+{% block content %}
+<div id="intro">
+</div>
+{% endblock %}
+</div>
+
+{% block footer %}
+<footer class="footer" id="footerbar">
+    <div class="container">
+    <div class="row">
+        <div id="footercopyright">
+            <div class="col-xs-6">
+                <h6>Copyright &copy; 2015 Hedge. All rights reserved.</h6>
+                <a class="btn btn-link btn-xs" href="{% url 'splash:base_view' %}">Home</a>
+                {% if not mobile %}
+                <a class="btn btn-link btn-xs" href="{% url 'stocks:base_view' %}">Stocks</a>
+                <a class="btn btn-link btn-xs" href="{% url 'leaderboard:base_view' %}">Leaderboard</a>
+                <a class="btn btn-link btn-xs" href="{% url 'splash:base_view' %}#instructions">About</a>
+                <a class="btn btn-link btn-xs" href="{% url 'splash:glossary_view' %}">Glossary</a>
+                {% endif %}
+                <a class="btn btn-link btn-xs" href="bitcoin:1MPfsgewyBg3Qum8Msc8uQn7kPXpf3FzgV?amount=0.01&label=Hedge">Donate</a>
+            </div>
+            <div class="col-xs-6">
+                <ul class="nav">
+                <h6 class="pull-right">
+                    <li>Mahdi Hosseini</li>
+                    <li>Phillip Stewart</li>
+                    <li>Sina Amini</li>
+                    <li>Joe Greene</li>
+                    <li>Derek Louie</li>
+                </h6>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+</footer>
+{% endblock %}
+
+{% block ticker_js %}
+<script>
+$(window).load(function(){function e(){c-=2,-t>c&&(c=-5),$("#ticker").css("margin-left",c+"px"),o=setTimeout(e,40)}var o,t=$("#ticker").width(),c=0;$("#ticker").clone().children().appendTo("#ticker"),$("#ticker").mouseover(function(){clearInterval(o)}),$("#ticker").mouseout(function(){o=setTimeout(e,40)}),e()});
+</script>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+</body>
+</html>
+
+
+

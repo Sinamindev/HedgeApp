@@ -1,0 +1,370 @@
+{% extends "base.html" %}
+
+{% block title %}Hedge Glossary{% endblock %}
+
+{% block head %}
+<style>
+dd {
+  padding: 25px;
+
+}
+dt {
+  padding: 5px;
+}
+.definitions h1 {
+  background-color: #5bc0de;
+  color: white;
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+dfn {
+  font-size: 120%;
+  font-style: normal;
+}
+</style>
+{% endblock %}
+
+{% block nav_bar %}
+<li><a href="{% url 'splash:base_view' %}">Home</a></li>
+<li><a href="{% url 'stocks:base_view' %}">Stocks</a></li>
+<li><a href="{% url 'stocks:screener_view' %}">Screener</a></li>
+{% if user.is_authenticated %}
+<li><a href="{% url 'portfolio:base_view' %}">Portfolio</a></li>
+<li><a href="{% url 'portfolio:watchlist_view' %}">Watchlist</a></li>
+<li><a href="{% url 'portfolio:history_view' %}">History</a></li>
+{% endif %}
+<li><a href="{% url 'leaderboard:base_view' %}">Leaderboards</a></li>
+{% if mobile %}
+<li class="active"><a href="{% url 'splash:glossary_view' %}">Glossary<span class="sr-only">(current)</span></a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+<ul class="list-inline text-center alphabet">
+	<li>
+		<h3><a href="#letterHash">#</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterA">A</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterB">B</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterC">C</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterD">D</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterE">E</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterF">F</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterG">G</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterH">H</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterI">I</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterJ">J</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterK">K</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterL">L</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterM">M</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterN">N</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterO">O</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterP">P</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterQ">Q</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterR">R</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterS">S</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterT">T</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterU">U</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterV">V</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterW">W</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterX">X</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterY">Y</a></h3>
+	</li>
+	<li>
+		<h3><a href="#letterZ">Z</a></h3>
+	</li>
+</ul>
+
+<div class="col-md-10 col-md-offset-1 definitions">
+<h1 id="letterHash">#</h1>
+    <dl>
+      <dt><dfn>13-Week High</dfn></dt>
+      <dd>The lowest and highest prices at which a stock has traded in the previous 13 weeks.</dd>
+    </dl>
+
+    <dl>
+      <dt><dfn>52-Week High</dfn></dt>
+      <dd>The lowest and highest prices at which a stock has traded in the previous 52 weeks. The 52-week range is provided in a stock's quote summary along with information such as today's change and year-to-date change. Companies that have been trading for less than a year will still show a 52-week range even though there isn't data for the full range.</dd>
+    </dl>
+	
+    <dl>
+      <dt><dfn>52-Week High/Low</dfn></dt>
+      <dd>The highest and lowest prices that a stock has traded at during the previous year. Many traders and investors view the 52-week high or low as an important factor in determining a stock's current value and predicting future price movement.</dd>
+    </dl>
+<h1 id="letterA">A</h1>
+    <dl>
+      <dt><dfn>Absolute Rate</dfn></dt>
+      <dd>The fixed portion of an interest-rate swap, expressed as a percentage rather than as a premium or a discount to a reference rate.</dd>
+    </dl>
+	
+    <dl>
+      <dt><dfn>Absolute Return</dfn></dt>
+      <dd>The return that an asset achieves over a certain period of time. This measure looks at the appreciation or depreciation (expressed as a percentage) that an asset - usually a stock or a mutual fund - achieves over a given period of time.<br /><br />Absolute return differs from relative return because it is concerned with the return of a particular asset and does not compare it to any other measure or benchmark.</dd>
+    </dl>
+
+<h1 id="letterB">B</h1>
+    <dl>
+      <dt><dfn>Balanced Trade</dfn></dt>
+      <dd>A condition in which an economy runs neither a trade surplus or a trade deficit. Under a balanced trade scheme between two countries, each country will agree to purchase as many goods as it sells to the other. A country looking to achieve balanced trade may use tariffs or barriers to trade to ensure that other countries purchase its goods.</dd>
+    </dl>
+
+<h1 id="letterC">C</h1>
+
+    <dl>
+      <dt><dfn>Cash Flow Per Share</dfn></dt>
+      <dd>Cash Flow Per Share = (Operating Cash Flow – Preferred Dividends) / Common Shares Outstanding.<br/ ><br />
+Cash flow per share shows the after-tax earnings plus depreciation, on a per share basis. Many financial analysts place more emphasis on the cash flow per share value than on earnings per share values. While an earnings per share value can be easily manipulated to appear more positive than it really is, therefore putting its reliability in question, cash is more difficult to alter, resulting in what some analysts believe is a more accurate value of the strength and sustainability of a particular business model.</dd>
+    </dl>
+
+    <dl>
+      <dt><dfn>Change</dfn></dt>
+      <dd>The difference between the current price and the last trade of the previous day.</dd>
+    </dl>
+
+<h1 id="letterD">D</h1>
+
+    <dl>
+      <dt><dfn>Daily Average Revenue Trades (DARTs)</dfn></dt>
+      <dd>A common metric used in the investment brokerage industry that represents the number of trades from which a given broker can expect to generate revenue through commissions or fees on any given day.</dd>
+    </dl>
+
+<h1 id="letterE">E</h1>
+
+    <dl>
+      <dt><dfn>Earnings Per Share (EPS)</dfn></dt>
+      <dd>The portion of a company's profit allocated to each outstanding share of common stock. Earnings per share serves as an indicator of a company's profitability.</dd>
+    </dl>
+
+<h1 id="letterF">F</h1>
+
+    <dl>
+      <dt><dfn>Federal Funds</dfn></dt>
+      <dd>Excess reserves that commercial banks deposit at regional Federal Reserve banks. Federal funds can then be lent to other commercial banks with insufficient reserves. These loans are made at a relatively low interest rate, called the federal funds rate or overnight rate, and they typically have an extremely short duration: overnight. Federal funds help commercial banks meet their daily reserve requirements. Banks are required to maintain a certain level of reserves based on the amount of customer deposits they are responsible for.</dd>
+    </dl>
+	
+<h1 id="letterG">G</h1>
+
+    <dl>
+      <dt><dfn>Guaranteed Bond</dfn></dt>
+      <dd>A debt security that offers a secondary guarantee that interest and principal payment will be made by a third party, should the issuer default due to reasons such as insolvency or bankruptcy. A guaranteed bond can be municipal or corporate, backed by a bond insurer, a fund or group entity, or a government authority.</dd>
+    </dl>
+	
+<h1 id="letterH">H</h1>
+
+    <dl>
+      <dt><dfn>Head Trader</dfn></dt>
+      <dd>The manager of a trading business. He or she is responsible for the positions, risk and ultimate profitability of that business. In a registered securities firm, the head trader supervises all traders and other personnel within his or her purview. Most notably, the head trader is charged with insuring regulatory and internal compliance for every employee who is part of the trading operation (i.e., not just traders).</dd>
+    </dl>
+	
+<h1 id="letterI">I</h1>
+
+    <dl>
+      <dt><dfn>Inflation Trade</dfn></dt>
+      <dd>A method of investing that seeks to profit from an overall increase in price levels. The inflation trade often involves trades in commodities, such as gold and oil, because their prices rise when inflation occurs. Everyone needs to protect themselves against inflation, but the term "inflation trade" refers to a speculative practice of attempting to profit when inflation occurs rather than just hedging against it.</dd>
+    </dl>
+	
+<h1 id="letterJ">J</h1>
+
+    <dl>
+      <dt><dfn>Joint Stock Company</dfn></dt>
+      <dd>An organization that falls between the definitions of a partnership and corporation. This type of company issues stock and allows for secondary market trading; however, stockholders are liable for company debts.</dd>
+    </dl>
+	
+<h1 id="letterK">K</h1>
+
+    <dl>
+      <dt><dfn>Key Currency</dfn></dt>
+      <dd>The currency used as a reference in an international transaction or when setting an exchange rate. The key currency used is usually issued by a stable, developed country such as the United States. Central banks also hold key currencies in reserve (reserve currency).</dd>
+    </dl>
+	
+<h1 id="letterL">L</h1>
+
+    <dl>
+      <dt><dfn>Large-Value Stock</dfn></dt>
+      <dd>A type of large-cap stock investment where the intrinsic value of the company's stock is greater than the stock's market value. The stock's intrinsic value can be determined by using a valuation model such as discounted cash flow and multiples.</dd>
+    </dl>
+	
+<h1 id="letterM">M</h1>
+
+    <dl>
+      <dt><dfn>Market Capitalization (Market Cap)</dfn></dt>
+      <dd>The total dollar market value of all of a company's outstanding shares. Market capitalization is calculated by multiplying a company's shares outstanding by the current market price of one share. The investment community uses this figure to determine a company's size, as opposed to sales or total asset figures.</dd>
+    </dl>
+
+<h1 id="letterN">N</h1>
+
+    <dl>
+      <dt><dfn>Nasdaq</dfn></dt>
+      <dd>A global electronic marketplace for buying and selling securities, as well as the benchmark index for U.S. technology stocks. Nasdaq was created by the National Association of Securities Dealers (NASD) to enable investors to trade securities on a computerized, speedy and transparent system, and commenced operations on February 8, 1971. The term “Nasdaq” is also used to refer to the Nasdaq Composite, an index of more than 3,000 stocks listed on the Nasdaq exchange that includes the world’s foremost technology and biotech giants such as Apple, Google, Microsoft, Oracle, Amazon, Intel and Amgen.</dd>
+    </dl>
+<h1 id="letterO">O</h1>
+    <dl>
+      <dt><dfn>Open</dfn></dt>
+      <dd>The start of trading on a securities exchange. The open on a trading exchange signals the start of an official day for the exchange, and that buy and sell transactions can commence for the business day.</dd>
+    </dl>
+	
+    <dl>
+      <dt><dfn>Outstanding Shares</dfn></dt>
+      <dd>Outstanding shares refer to a company's stock currently held by all its shareholders, including share blocks held by institutional investors and restricted shares owned by the company’s officers and insiders. Outstanding shares are shown on a company's balance sheet under the heading "Capital Stock." The number of outstanding shares is used in calculating key metrics such as a company's market capitalization, as well as its earnings per share (EPS) and cash flow per share (CFPS).<br /><br />
+
+A company's number of outstanding shares is not static, but may fluctuate widely over time. Also known as "shares outstanding."</dd>
+    </dl>
+
+<h1 id="letterP">P</h1>
+
+    <dl>
+      <dt><dfn>Percent Change</dfn></dt>
+      <dd>This is the percentage change in the company's stock price since the close of the last trading day of the previous year.</dd>
+    </dl>
+	
+    <dl>
+      <dt><dfn>Previous Close</dfn></dt>
+      <dd>A security's closing price on the preceding day of trading. Previous close can refer to the prior day's value of a stock, bond, commodity, futures or option contract, market index, or any other security. By comparing a security's closing price from one day to the next, investors can see how the security's price has changed over time.</dd>
+    </dl>
+
+    <dl>
+      <dt><dfn>Price-Earnings Ratio (P/E Ratio)</dfn></dt>
+      <dd>The Price-to-Earnings Ratio or P/E ratio is a ratio for valuing a company that measures its current share price relative to its per-share earnings. The price-earnings ratio can be calculated as:<br /><br />Market Value per Share / Earnings per Share</dd>
+    </dl>
+	
+
+<h1 id="letterQ">Q</h1>
+    <dl>
+      <dt><dfn>Qualifying Ratios</dfn></dt>
+      <dd>A set of ratios that are used by lenders to approve borrowers for a mortgage. The borrower's front-end ratio, which is the total housing expense compared to the borrower's gross monthly income, is compared to the borrower's back-end ratio, which comprises of the total housing expense and other consumer debt compared to the borrower's gross monthly income. The front-end ratio is generally limited to a maximum of 28% and the back-end ratio is generally limited to 35%. However, both ratios change with market conditions and may be influenced by other risk factors (such as the loan-to-value ratio of the mortgage).</dd>
+    </dl>
+
+<h1 id="letterR">R</h1>
+    <dl>
+      <dt><dfn>Return On Investment (ROI)</dfn></dt>
+      <dd>A performance measure used to evaluate the efficiency of an investment or to compare the efficiency of a number of different investments. ROI measures the amount of return on an investment relative to the investment’s cost. To calculate ROI, the benefit (or return) of an investment is divided by the cost of the investment, and the result is expressed as a percentage or a ratio.</dd>
+    </dl>
+
+
+<h1 id="letterS">S</h1>
+
+    <dl>
+      <dt><dfn>Same-Day Funds</dfn></dt>
+      <dd>Money that can be transferred or withdrawn the same day that it is deposited. Same-day funds are subject to the net settlement of accounts between the banks that present and remit the funds. Most customer deposits are not same-day funds and are usually not available for withdrawal until the next business day.</dd>
+    </dl>
+
+<h1 id="letterT">T</h1>
+
+    <dl>
+      <dt><dfn>Target Price</dfn></dt>
+      <dd>A price that, if achieved, would result in a trader recognizing the best possible outcome for his or her investment. This is the price at which the trader would like to exit his or her existing position so that he or she can realize the most reward.</dd>
+    </dl>
+
+<h1 id="letterU">U</h1>
+
+    <dl>
+      <dt><dfn>Unchaged</dfn></dt>
+      <dd>A situation in which the price or rate of a security does not change between two periods. This can be over any time frame including a trading day, week, or even as much as a year. </dd>
+    </dl>
+	
+<h1 id="letterV">V</h1>
+
+    <dl>
+      <dt><dfn>Volume</dfn></dt>
+      <dd>The number of shares or contracts traded in a security or an entire market during a given period of time. It is simply the amount of shares that trade hands from sellers to buyers as a measure of activity. If a buyer of a stock purchases 100 shares from a seller, then the volume for that period increases by 100 shares based on that transaction.</dd>
+    </dl>
+
+<h1 id="letterW">W</h1>
+
+    <dl>
+      <dt><dfn>Wall Street</dfn></dt>
+      <dd>The collective name for the financial and investment community, which includes stock exchanges and large banks, brokerages, securities and underwriting firms, and big businesses. Some people believe that the interests of these big firms contrast those of smaller businesses, or "Main Street."</dd>
+    </dl>
+
+<h1 id="letterX">X</h1>
+
+    <dl>
+      <dt><dfn>X-Efficiency</dfn></dt>
+      <dd>The degree of efficiency maintained by individuals and firms under conditions of imperfect competition. According to the neoclassical theory of economics, under perfect competition individuals and firms must maximize efficiency in order to succeed and make a profit; those who do not will fail and be forced to exit the market. However, x-efficiency theory asserts that under conditions of less-than-perfect competition, inefficiency may persist.</dd>
+    </dl>
+	
+<h1 id="letterY">Y</h1>
+
+    <dl>
+      <dt><dfn>Y-Share</dfn></dt>
+      <dd>A class of mutual fund shares that often has a high minimum investment, such as $500,000 per lot, and the added benefit of waived or limited load charges and fees. Due to the high minimum investment required, Y-shares are often only accessible by large institutional investors.</dd>
+    </dl>
+	
+	
+<h1 id="letterZ">Z</h1>
+
+    <dl>
+      <dt><dfn>Zero-Bound Interest Rate</dfn></dt>
+      <dd>The lowest percentage of owed principal that a central bank can set. In monetary policy, the use of a 0% nominal interest rate means that the central bank can no longer reduce the interest rate to encourage economic growth. As the interest rate approaches the zero bound, the effectiveness of monetary policy is reduced as a macroeconomic tool. A zero-bound interest rate typically refers to the process where, by gradual steps, the interest rate approaches zero.</dd>
+    </dl>
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+$('a').click(function(){
+    $('html, body').animate({
+        scrollTop: $( $.attr(this, 'href') ).offset().top
+    }, 500);
+    return false;
+});
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "stocks/stocks_base.html" %}
+{% load staticfiles %}
+
+{% block title %}Hedge Bitcoin Info{% endblock %}
+
+{% block content %}
+	Bitcoin
+	<br>
+	Current Price: {{ price }}
+	<br>
+	<img src="{% static "bitcoin.jpg" %}" alt="Bitcoin Chart (3 Month)"/>
+
+	{% if user.is_authenticated %}
+	<form action="{% url 'stocks:bitcoin_view' %}" method="post">
+		{% csrf_token %}
+		{{ buy_form }}
+		<input type="hidden" name="type" value="buy">
+		<input type="submit" value="Buy" />
+	</form>
+
+	{% if owns %}
+	<p>You own {{ num_owned }} shares of this stock.</p>
+	<form action="{% url 'stocks:symbol_view' symbol %}" method="post">
+		{% csrf_token %}
+		{{ sell_form }}
+		<input type="hidden" name="type" value="sell">
+		<input type="submit" value="Sell" />
+	</form>
+	{% endif %}
+	{% endif %}
+{% endblock %}

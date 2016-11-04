@@ -1,0 +1,49 @@
+{% extends "stocks/stocks_base.html" %}
+
+{% block title %}Hedge Stock Screener{% endblock %}
+
+
+{% block nav_bar %}
+<li><a href="{% url 'splash:base_view' %}">Home</a></li>
+<li><a href="{% url 'stocks:base_view' %}">Stocks</a></li>
+<li class="active"><a href="{% url 'stocks:screener_view' %}">Screener<span class="sr-only">(current)</span></a></li>
+{% if user.is_authenticated %}
+<li><a href="{% url 'portfolio:base_view' %}">Portfolio</a></li>
+<li><a href="{% url 'portfolio:watchlist_view' %}">Watchlist</a></li>
+<li><a href="{% url 'portfolio:history_view' %}">History</a></li>
+{% endif %}
+<li><a href="{% url 'leaderboard:base_view' %}">Leaderboards</a></li>
+{% if mobile %}
+<li><a href="{% url 'splash:glossary_view' %}">Glossary</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+	<table id="id_screen_stocks" class="table table-bordered" {% if not mobile %}style="width: 720px;"{% endif %}>
+	<caption><big>Screener:</big></caption>
+		<tr>
+		{% for col in columns %}
+		{% if col.0 == sort_by %}
+			{% if descending %}
+			<th><a href="{% url 'stocks:screener_view' descending='' sort_by=col.0 %}">{{ col.1 }} &#9660;</th>
+			{% else %}
+			<th><a href="{% url 'stocks:screener_view' descending='-' sort_by=col.0 %}"> + {{ col.1 }} &#9650;</th>
+			{% endif %}
+		{% else %}
+		<th><a href="{% url 'stocks:screener_view' descending='-' sort_by=col.0 %}">{{ col.1 }}</th>
+		{% endif %}
+		{% endfor %}
+		</tr>
+		{% for row in table_entries %}
+		<tr>
+		{% for val in row %}
+			{% if forloop.counter == 1 %}<td><a href="{% url 'stocks:symbol_view' val %}">{{ val }}</a></td>
+			{% else %}<td>{{ val }}</td>{% endif %}
+		{% endfor %}
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+	<br><br>
+{% endblock %}

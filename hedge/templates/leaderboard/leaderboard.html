@@ -1,0 +1,85 @@
+{% extends "stocks/stocks_base.html" %}
+
+{% block title %}Hedge Leaderboard - {{ title_str }}{% endblock %}
+
+{% block head %}
+<style>
+#link_center {
+margin-bottom: 20px;
+}
+#link_center ul
+{
+margin: 5px;
+padding: 2px;
+list-style-type: none;
+text-align: center;
+}
+#link_center ul li { display: inline; }
+#link_center ul li a
+{
+margin: 5px;
+border-radius: 10px;
+text-decoration: none;
+padding: .2em 1em;
+color: #fff;
+background-color: #F0AD4E;
+}
+#link_center ul li a:hover
+{
+color: #555;
+background-color: #E7E7E7;
+}
+</style>
+{% endblock %}
+
+{% block nav_bar %}
+<li><a href="{% url 'splash:base_view' %}">Home</a></li>
+<li><a href="{% url 'stocks:base_view' %}">Stocks</a></li>
+<li><a href="{% url 'stocks:screener_view' %}">Screener</a></li>
+{% if user.is_authenticated %}
+<li><a href="{% url 'portfolio:base_view' %}">Portfolio</a></li>
+<li><a href="{% url 'portfolio:watchlist_view' %}">Watchlist</a></li>
+<li><a href="{% url 'portfolio:history_view' %}">History</a></li>
+{% endif %}
+<li class="active"><a href="{% url 'leaderboard:base_view' %}">Leaderboards<span class="sr-only">(current)</span></a></li>
+{% if mobile %}
+<li><a href="{% url 'splash:glossary_view' %}">Glossary</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+	<div class="table-responsive">
+	<table id="leader_table" class="table table-bordered"  {% if not mobile %}style="width: 720px;"{% endif %}>
+	<caption><big>{{ title_str }}:</big></caption>
+	{% for row in leaders %}
+	{% if forloop.counter == 1 %}
+	<tr>
+		<th></th>
+		{% for elem in row %}
+		<th>{{ elem }}</th>
+		{% endfor %}
+	</tr>
+	{% else %}
+	{% if user.is_authenticated and user.username == row.0 %}<tr style="background-color: #99ff99;">
+	{% else %}<tr>{% endif %}
+		<td>{{ forloop.counter0 }}</td>
+		{% for elem in row %}
+		<td>{{ elem }}</td>
+		{% endfor %}
+	</tr>
+	{% endif %}
+	{% endfor %}
+	</table>
+	</div>
+	
+	<div id="link_center">
+	<ul>
+		<li><a href="{% url 'leaderboard:base_view' %}"> All-time </a></li>
+		<li><a href="{% url 'leaderboard:day_view' %}"> Today </a></li>
+		<li><a href="{% url 'leaderboard:week_view' %}"> Week </a></li>
+		<li><a href="{% url 'leaderboard:month_view' %}"> Month </a></li>
+		<li><a href="{% url 'leaderboard:year_view' %}"> Year </a></li>
+	</ul>
+	</div>
+	<br><br>
+{% endblock %}

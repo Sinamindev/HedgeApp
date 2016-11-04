@@ -1,0 +1,145 @@
+{% extends "stocks/stocks_base.html" %}
+
+{% block title %}Hedge Stocks{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+    $('#errorModal').modal('show');
+});
+</script>
+{% endblock %}
+
+{% block content %}
+{% if message %}
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel">
+<div class="modal-dialog modal-md" role="document">
+  <div class="modal-content">
+    <div class="modal-header-danger">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      <h2 class="modal-title vertical-align" id="errorModalLabel"><i class="glyphicon glyphicon-remove"></i> <strong>Error</strong></h2>
+    </div>
+    <div class="modal-body text-center">
+	  {{ message }}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default center-block" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+{% endif %}
+{% if mobile %}
+<div>
+{% else %}
+<div style="width: 80%; margin: auto;">
+{% endif %}
+<div class="table-responsive">
+	<table id="actives" class="display table table-bordered" width="100%">
+	<caption><big>Most Active:</big></caption>
+	<thead>
+	<tr>
+		<th>Symbol</th>
+		<th>Company</th>
+		<th>Price</th>
+		<th>Change</th>
+		<th>% Change</th>
+		<th>Volume</th>
+	</tr>
+	</thead>
+	<tbody id="active_body">
+	{% for row in actives %}
+		<tr>
+		{% for val in row %}
+			{% if forloop.counter == 1 %}<td><a href="{% url 'stocks:symbol_view' val %}">{{ val }}</a></td>
+			{% else %}<td>{{ val }}</td>{% endif %}
+		{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+    </table>
+</div>
+
+<div class="table-responsive">
+    <table id="gainers" class="display table table-bordered" width="100%">
+	<caption><big>Gainers:</big></caption>
+	<thead>
+	<tr>
+		<th>Symbol</th>
+		<th>Company</th>
+		<th>Price</th>
+		<th>Change</th>
+		<th>% Change</th>
+		<th>Volume</th>
+	</tr>
+	</thead>
+	<tbody id="gainers_body">
+	{% for row in gainers %}
+		<tr>
+		{% for val in row %}
+			{% if forloop.counter == 1 %}<td><a href="{% url 'stocks:symbol_view' val %}">{{ val }}</a></td>
+			{% else %}<td>{{ val }}</td>{% endif %}
+		{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+	</div>
+
+	<div class="table-responsive">
+    <table id="losers" class="display table table-bordered" width="100%">
+	<caption><big>Losers:</big></caption>
+	<thead>
+	<tr>
+		<th>Symbol</th>
+		<th>Company</th>
+		<th>Price</th>
+		<th>Change</th>
+		<th>% Change</th>
+		<th>Volume</th>
+	</tr>
+	</thead>
+	<tbody id="losers_body">
+	{% for row in losers %}
+		<tr>
+		{% for val in row %}
+			{% if forloop.counter == 1 %}<td><a href="{% url 'stocks:symbol_view' val %}">{{ val }}</a></td>
+			{% else %}<td>{{ val }}</td>{% endif %}
+		{% endfor %}
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+	</div>
+</div>
+<br><br>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#actives').dataTable( {
+	"searching": false,
+	"lengthChange": false,
+	"order": [[ 5, 'desc' ]]
+	});
+});
+$(document).ready(function() {
+	$('#gainers').dataTable( {
+	"searching": false,
+	"lengthChange": false,
+	"order": [[ 4, 'desc' ]]
+	});
+});
+$(document).ready(function() {
+	$('#losers').dataTable( {
+	"searching": false,
+	"lengthChange": false,
+	"order": [[ 4, 'asc' ]]
+	});
+});
+</script>
+{% endblock %}

@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/formValidation.min.css">
+<style>
+.glyphicon:before{margin-right:10px}
+#nameFormContainer{padding-top:10px}
+#controlpanel .btn{margin-bottom:20px}
+#controlpanel .btn-success{margin-top:10px;margin-bottom:20px}
+hr{border-top:0;border-width:3px}
+#accountpanel{padding-top:20px;padding-bottom:50px;border-radius:25px;margin-top:50px;background-color:#f8f8f8;}
+#nameFormContainer .panel .btn{padding:10px}
+#nameFormContainer .panel .btn-link{color:#000}
+#nameForm .form-group{align-items:top}
+#nameFormContainer .panel{border-radius:25px}
+#nameFormContainer .panel-heading{border-top-right-radius:25px;border-top-left-radius:25px}
+#nameFormContainer .panel-footer{border-bottom-right-radius:25px;border-bottom-left-radius:25px}
+</style>
+{% endblock %}
+
+{% block account_mgmt %}
+<div class="col-xs-6" id="loginbuttons">
+	<a href="{% url 'auth_logout' %}" id="login-button" class="btn btn-info btn-small pull-right">Log Out</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel">
+<div class="modal-dialog modal-md" role="document">
+	<div class="modal-content">
+		<div class="modal-header-danger">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+			<h2 class="modal-title vertical-align" id="errorModalLabel"><i class="glyphicon glyphicon-remove"></i> <strong>Warning</strong></h2>
+		</div>
+		<div class="modal-body text-center">Resetting your portfolio will erase all owned stocks and transactions. Your virtual currency will be reset to it's initial value. This action CANNOT be undone.
+		</div>
+		<div class="modal-footer">
+			<div class="col-md-6">
+				<a class="btn btn-warning btn-block" href="{% url 'portfolio:reset_portfolio' user_key=deac_key %}">Reset Portfolio</a>
+			</div>
+			<div class="col-md-6">
+				<button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="modal fade" id="deactivateModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel">
+<div class="modal-dialog modal-md" role="document">
+	<div class="modal-content">
+		<div class="modal-header-danger">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+			<h2 class="modal-title vertical-align" id="errorModalLabel"><i class="glyphicon glyphicon-remove"></i> <strong>Warning</strong></h2>
+		</div>
+		<div class="modal-body text-center">Disabling your account can potentially delete all user data including owned stocks, transactions, and balance. Furthermore, you will not be able to register again with the same username or email. This action can only be remedied by contacting the Hedge site administrators.
+		</div>
+		<div class="modal-footer">
+			<div class="col-md-6">
+				<a class="btn btn-warning btn-block" href="{% url 'portfolio:deactivate' user_key=deac_key %}">Deactivate Account</a>
+			</div>
+			<div class="col-md-6">
+				<button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="container">
+{% if mobile %}
+<div class="col-md-12">
+{% else %}
+<div class="col-md-10 col-md-offset-1">
+{% endif %}
+<div class="panel panel-default" id="accountpanel" style="background-color: #f8f8f8">
+	<div class="panel-body">
+		{% if mobile %}
+		<div class="col-md-12">
+		{% else %}
+		<div class="col-md-10 col-md-offset-1">
+		{% endif %}
+			<h2><strong><span class="glyphicon glyphicon-user"></span>  Account</strong></h2>
+			<hr>
+			<table class="table">
+				<caption>
+					<h3>Profile:</h3>
+				</caption>
+				<tr>
+					<td><strong>Username</strong></td>
+					<td>{{ user.username }}</td>
+				</tr>
+				<tr>
+					<td><strong>First Name:</strong></td>
+					<td>{{ f_name }}</td>
+				</tr>
+				<tr>
+					<td><strong>Last Name:</strong></td>
+					<td>{{ l_name }}</td>
+				</tr>
+				<tr>
+					<td><strong>Join Date:</strong></td>
+					<td>{{ add_date }}</td>
+				</tr>
+			</table>
+
+			<div id="controlpanel">
+			<h2><strong><span class="glyphicon glyphicon-wrench"></span> Preferences</strong></h2>
+			<hr>
+			<div class="row">
+				<div class="col-md-6 text-center">
+					<button type="button" class="btn {% if mobile %} btn-md {% else %} btn-lg {% endif %} btn-block btn-success" value="Update Name" onclick="name_input();">
+					<span class="glyphicon glyphicon-user"></span> Update Name
+					</button>
+				</div>
+				<div class="col-md-6 text-center">
+					<a class="btn {% if mobile %} btn-md {% else %} btn-lg {% endif %} btn-block btn-success" href="{% url 'auth_password_change' %}">
+					<span class="glyphicon glyphicon-lock"></span> Change Password
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 text-center">
+					<button type="button" class="btn {% if mobile %} btn-md {% else %} btn-lg {% endif %} btn-block btn-warning" id="reset-button" value="Reset Portfolio" onclick="reset_action();">
+					<span class="glyphicon glyphicon-refresh"></span> Reset Portfolio
+					</button>
+				</div>
+				<div class="col-md-6 text-center">
+					<button type="button" class="btn {% if mobile %} btn-md {% else %} btn-lg {% endif %} btn-block btn-danger" id="deac-button" value="Deactivate Account" onclick="disable_action();">
+					<span class="glyphicon glyphicon-remove"></span> Deactivate Account</a>
+					</button>
+				</div>
+			</div>
+			</div>
+		</div>
+
+	{% if mobile %}
+	<div class="col-md-12">
+	{% else %}
+	<div class="col-md-8 col-md-offset-2">
+	{% endif %}
+		<div id="nameFormContainer" {% if not bad_form %}style="display:none;"{% endif %}>
+		<div class="panel panel-default" >
+		<div class="panel-body">
+			<div class="col-xs-12">
+				<h4 style="margin-bottom: 20px;">Please enter your first name and last name:</h4>
+			</div>
+			<form id="nameForm" class="form-horizontal" action="." method="post" role="form">
+				{% csrf_token %}
+				{% if form.non_field_errors %}
+				<div class="form-group">
+					{{ form.non_field_errors }}
+				</div>
+				{% endif %}
+				<div class="form-group">
+					<div class="col-xs-12">
+						<input type="text" class="form-control" name="first_name" id="id_first_name" placeholder="First Name" maxlength="30" autofocus/>
+					</div>
+				</div>
+				{% if form.first_name.errors %}
+				<div class="form-group">
+					{{ form.first_name.errors }}
+				</div>
+				{% endif %}
+				<div class="form-group">
+					<div class="col-xs-12">
+						<input type="text" class="form-control" name="last_name" id="id_last_name" placeholder="Last Name" maxlength="30" autofocus/>
+					</div>
+				</div>
+				{% if form.last_name.errors %}
+				<div class="form-group">
+					{{ form.last_name.errors }}
+				</div>
+				{% endif %}
+				<div class="form-group">
+					<div class="col-xs-6">
+						<button type="submit" class="btn btn-success btn-block" name="name-submit" id="name-submit" value="Register">Update</button>
+					</div>
+					<div class="col-xs-6">
+						<button type="button" class="btn btn-block" name="name-submit" id="name-cancel" value="Cancel" onclick="hide_name_input();">Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div><!-- End panel body -->
+		</div><!-- End panel group -->
+		</div><!-- End nameFormContainer div -->
+	</div>
+	</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/formValidation.min.js"></script>
+<script src="/static/js/bootstrapfv.min.js"></script>
+<script type="text/javascript">function reset_action(){$("#resetModal").modal("show")}function disable_action(){$("#deactivateModal").modal("show")}function name_input(){document.getElementById("nameFormContainer").style.display="block",document.getElementById("update_name_button").style.display="none"}function hide_name_input(){document.getElementById("nameFormContainer").style.display="none",document.getElementById("update_name_button").style.display="block"}</script><script>$(document).ready(function(){$("#nameForm").formValidation({framework:"bootstrap",icon:{valid:"glyphicon glyphicon-ok",invalid:"glyphicon glyphicon-remove",validating:"glyphicon glyphicon-refresh"},fields:{first_name:{validators:{notEmpty:{message:'First name is required.'},regexp:{regexp:/^[a-zA-Z_]+$/,message:"Names can only consist of letters."}}},last_name:{validators:{notEmpty:{message:'Last name is required.'},regexp:{regexp:/^[a-zA-Z_]+$/,message:"Names can only consist of letters."}}}}})});</script>
+{% endblock %}

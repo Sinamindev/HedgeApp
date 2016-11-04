@@ -1,0 +1,52 @@
+{% extends "portfolio/portfolio_base.html" %}
+
+{% block title %}Hedge Portfolio: {{ user.username }} Watchlist{% endblock %}
+
+{% block nav_bar %}
+<li><a href="{% url 'splash:base_view' %}">Home</a></li>
+<li><a href="{% url 'stocks:base_view' %}">Stocks</a></li>
+<li><a href="{% url 'stocks:screener_view' %}">Screener</a></li>
+{% if user.is_authenticated %}
+<li><a href="{% url 'portfolio:base_view' %}">Portfolio</a></li>
+<li class="active"><a href="{% url 'portfolio:watchlist_view' %}">Watchlist<span class="sr-only">(current)</span></a></li>
+<li><a href="{% url 'portfolio:history_view' %}">History</a></li>
+{% endif %}
+<li><a href="{% url 'leaderboard:base_view' %}">Leaderboards</a></li>
+{% if mobile %}
+<li><a href="{% url 'splash:glossary_view' %}">Glossary</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% if user_stocks %}
+	<div class="table-responsive">
+	<table id="watch_table" class="table table-bordered" {% if not mobile %}style="width: 720px;"{% endif %}>
+	<caption><big>{{ user.username }} watchlist:</big></caption>
+		<tr>
+			<th>Company</th>
+			<th>Symbol</th>
+			<th></th>
+		</tr>
+	{% for s in user_stocks %}
+		<tr>
+			<td>{{ s.company }}</td>
+			<td><a href="{% url 'stocks:symbol_view' s.symbol %}">{{ s.symbol }}</a></td>
+			<td>
+			<form action="{% url 'portfolio:watchlist_view' %}" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="symbol" value="{{ s.symbol }}">
+			<input type="submit" value="Unwatch" />
+			</form>
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+	</div>
+	{% else %}
+		<table id="watch_table" class="table table-bordered">
+			<caption><big>You aren't watching any stocks yet!</big></caption>
+		</table>
+		</div>
+	{% endif %}
+	<br><br>
+{% endblock %}
